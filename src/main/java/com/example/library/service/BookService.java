@@ -99,6 +99,7 @@ public class BookService {
         book.setGenre(bookDto.getGenre());
         book.setISBN(bookDto.getISBN());
         quantityRepository.addQuantity(book, bookDto.getQuantity());
+        bookRepository.save(book);
     }
 
     public void deleteBook(long id) {

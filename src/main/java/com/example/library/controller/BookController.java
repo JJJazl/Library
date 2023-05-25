@@ -3,11 +3,9 @@ package com.example.library.controller;
 import com.example.library.dto.book.BookCreateDto;
 import com.example.library.dto.book.BookReadUpdateDto;
 import com.example.library.model.Book;
-import com.example.library.model.PaginationResult;
 import com.example.library.service.BookService;
 import com.example.library.service.QuantityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,7 +50,6 @@ public class BookController {
     @GetMapping("/more/{id}")
     public String getMoreInfoAboutBook(@PathVariable("id") long id, Model model) {
         BookReadUpdateDto book = bookService.getBook(id);
-        //ИЗМЕНИТЬ МЕТОД ПОЛУЧЕНИЯ QUANTITY в DAO сервисе с использованием JOIN
         long quantity = bookService.getCountOfQuantityByBookId(book.getId());
         model.addAttribute("bookReadDto", book);
         model.addAttribute("quantity", quantity);
@@ -65,9 +62,9 @@ public class BookController {
         return "manager/add-book";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    public String edit(Model model, @PathVariable("id") long id) {
+    public String edit(@PathVariable("id") long id, Model model) {
         model.addAttribute("bookReadDto", bookService.getBook(id));
         return "manager/edit-book";
     }
@@ -83,23 +80,22 @@ public class BookController {
         return "redirect:/book/list";
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    public String update(@ModelAttribute("bookReadDto") BookReadUpdateDto bookDto,
-                         @PathVariable("id") long id) {
+    public String update(@PathVariable("id") long id,
+                         @ModelAttribute("bookReadDto") BookReadUpdateDto bookDto) {
         bookService.updateBook(bookDto, id);
-        return "redirect:/more/{id}";
+        return "redirect:/book/more/{id}";
     }
 
     @DeleteMapping("/delete/copy/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     public String deleteOneCopyById(@PathVariable("id") long id) {
-        //возможно использовать bookService, а не quantityService!
         quantityService.deleteOneCopyById(id);
         return "redirect:/book/more/{id}";
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     public String deleteBookById(@PathVariable("id") long id) {
         bookService.deleteBook(id);

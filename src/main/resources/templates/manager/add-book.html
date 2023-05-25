@@ -190,7 +190,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 mx-auto">
-                        <form th:method="POST" th:action="@{book/post/add}" th:object="${bookCreateDto}">
+                        <form th:method="POST" th:action="@{/book/post/add}" th:object="${bookCreateDto}">
                             <div class="form-group row">
                                 <div class="col-sm-3">
                                     <label for="title">Title</label>
@@ -257,11 +257,6 @@
         </div>
     </div>
 </div>
-
-<footer class="container-fluid text-center">
-    <p>Application by Nikita and Renat</p>
-</footer>
-
 </body>
 </html>
 

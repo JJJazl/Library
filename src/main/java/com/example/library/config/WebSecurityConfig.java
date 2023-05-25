@@ -29,7 +29,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http.csrf()
                 .disable()
-                .authorizeRequests()
+                .authorizeHttpRequests()
+//                .authorizeRequests()
                 .requestMatchers("/book/list", "/user/register", "/book/more/{id}", "/book/search", "/book/getPopUnPopBook", "/user/post/register").permitAll()
                 .anyRequest().authenticated()
                 .and()

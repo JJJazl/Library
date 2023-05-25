@@ -169,7 +169,7 @@
 
 
             <div sec:authorize="hasRole('ROLE_READER')">
-                <form th:method="POST" th:action="@{/request/add/{bookId}(bookId=${bookReadDto.id})}">
+                <form th:method="POST" th:action="@{book/request/add/{bookId}(bookId=${bookReadDto.id})}">
                     <button type="submit" class="btn btn-default">Make a request</button>
                 </form>
             </div>
@@ -186,7 +186,7 @@
                 <!--<form th:method="PATCH" th:action="@{/{id}/edit(id=${bookReadDto.id})}">
                     <button type="submit" class="btn btn-default">Update book</button>
                 </form>-->
-                <form th:method="GET" th:action="@{/{id}/edit(id=${bookReadDto.id})}">
+                <form th:method="GET" th:action="@{/book/edit/{id}(id=${bookReadDto.id})}">
                     <button type="submit" class="btn btn-default">Update book</button>
                 </form>
             </div>
@@ -199,7 +199,7 @@
 </div>
 
 <footer class="container-fluid text-center">
-    <p>Application by Nikita and Renat</p>
+    <p>Application by: </p>
 </footer>
 
 </body>
