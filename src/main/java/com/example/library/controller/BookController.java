@@ -43,7 +43,7 @@ public class BookController {
     @GetMapping("/search")
     public String getBooksByTitle(String keyword, Model model) {
         List<BookReadUpdateDto> books = bookService.findBookByTitle(keyword);
-        model.addAttribute("booksReadDto", books);
+        model.addAttribute("books", books);
         return "user/books";
     }
 

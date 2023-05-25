@@ -12,14 +12,11 @@ import java.util.List;
 @Table(name = "book")
 @AllArgsConstructor
 @NoArgsConstructor
-//@SuperBuilder
-//@Builder
 public class Book extends BaseEntity<Long> {
 
     @Column(name = "title")
     public String title;
 
-    //@ElementCollection
     @Enumerated(value = EnumType.STRING)
     public Genre genre;
 
@@ -52,9 +49,7 @@ public class Book extends BaseEntity<Long> {
                 String description,
                 String ISBN,
                 Author author,
-                Author coAuthor
-                /*List<HistoryOfRequest> requests,
-                List<Quantity> quantities*/) {
+                Author coAuthor) {
         super(id);
         this.title = title;
         this.genre = genre;
@@ -62,7 +57,5 @@ public class Book extends BaseEntity<Long> {
         this.ISBN = ISBN;
         this.author = author;
         this.coAuthor = coAuthor;
-        /*this.requests = requests;
-        this.quantities = quantities;*/
     }
 }

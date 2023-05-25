@@ -13,6 +13,8 @@ import com.example.library.repository.QuantityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,20 +22,17 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BookService {
-    //private final AuthorService authorService;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final QuantityRepository quantityRepository;
 
     public void addBookWithMainAuthor(BookCreateDto bookDto) {
-        //перенести строку с преобразованием в dto в самый конец
         Book book = BookCreateMapper.mapToModel(bookDto);
         Optional<Author> author = authorRepository.findAuthorByNameAndSurname(
                 bookDto.getAuthorDto().getName(),
                 bookDto.getAuthorDto().getSurname()
         );
-       /* Optional<Author> author = authorService.getAuthorByNameAndSurname(
-                bookDto.getAuthorDto());*/
         if (author.isPresent()) {
             book.setAuthor(author.get());
         } else {
@@ -45,7 +44,6 @@ public class BookService {
     }
 
     public void addBookWithMainAuthorAndCoAuthor(BookCreateDto bookDto) {
-        //перенести строку с преобразованием в dto в самый конец
         Book book = BookCreateMapper.mapToModel(bookDto);
         Optional<Author> mainAuthor = authorRepository.findAuthorByNameAndSurname(
                 bookDto.getAuthorDto().getName(),
@@ -113,7 +111,10 @@ public class BookService {
     }
 
     public List<BookReadUpdateDto> findBookByTitle(String title) {
-        return bookRepository.findBookByTitle(title).stream()
+        List<Book> books = title.isEmpty()
+                ? bookRepository.findAll()
+                : bookRepository.findBookByTitle(title);
+        return books.stream()
                 .map(BookReadUpdateMapper::mapToDto)
                 .collect(Collectors.toList());
     }
@@ -135,13 +136,14 @@ public class BookService {
     }
 
     public List<Book> getPopularBookInSelectedPeriod(String firstDate, String secondDate) {
-//        return bookRepository.getPopularBookInSelectedPeriod(firstDate, secondDate);
-        return null;
+        return bookRepository.getPopularBookInSelectedPeriod(
+                LocalDate.parse(firstDate, DATE_TIME_FORMATTER),
+                LocalDate.parse(secondDate, DATE_TIME_FORMATTER));
     }
 
     public List<Book> getUnpopularBookInSelectedPeriod(String firstDate, String secondDate) {
-//        return bookRepository.getUnpopularBookInSelectedPeriod(firstDate, secondDate);
-        return null;
+        return bookRepository.getUnpopularBookInSelectedPeriod(
+                LocalDate.parse(firstDate, DATE_TIME_FORMATTER),
+                LocalDate.parse(secondDate, DATE_TIME_FORMATTER));
     }
-
 }

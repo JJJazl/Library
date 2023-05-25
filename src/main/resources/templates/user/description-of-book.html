@@ -178,14 +178,11 @@
                 <form th:method="DELETE" th:action="@{/book/delete/copy/{id}(id=${bookReadDto.id})}">
                     <button type="submit" class="btn btn-default">Delete one copy</button>
                 </form>
-
+                <br>
                 <form th:method="DELETE" th:action="@{/book/delete/{id}(id=${bookReadDto.id})}">
                     <button type="submit" class="btn btn-default">Delete book</button>
                 </form>
-
-                <!--<form th:method="PATCH" th:action="@{/{id}/edit(id=${bookReadDto.id})}">
-                    <button type="submit" class="btn btn-default">Update book</button>
-                </form>-->
+                <br>
                 <form th:method="GET" th:action="@{/book/edit/{id}(id=${bookReadDto.id})}">
                     <button type="submit" class="btn btn-default">Update book</button>
                 </form>
