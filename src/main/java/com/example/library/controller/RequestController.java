@@ -77,6 +77,6 @@ public class RequestController {
     @PostMapping("/reject/{id}")
     public String rejectRequest(@PathVariable("id") long id) {
         requestService.rejectRequest(id);
-        return "redirect:request/pageManager";
+        return "redirect:/request/pageManager";
     }
 }

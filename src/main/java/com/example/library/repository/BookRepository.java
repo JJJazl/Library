@@ -12,8 +12,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findBookByTitle(String title);
 
-    @Query("SELECT h.bookId, b, a, coa FROM HistoryOfRequest h LEFT JOIN FETCH h.bookId b LEFT JOIN FETCH b.author a LEFT JOIN FETCH b.coAuthor coa WHERE h.dateOfIssue BETWEEN :firstDate AND :secondDate GROUP BY h.bookId, b, a, coa ORDER BY COUNT(h.bookId) DESC")
+    @Query("SELECT b FROM Book b LEFT JOIN b.author LEFT JOIN b.coAuthor LEFT JOIN b.requests r WHERE r.dateOfIssue BETWEEN :firstDate AND :secondDate GROUP BY b.id ORDER BY COUNT(b.id) DESC")
     List<Book> getPopularBookInSelectedPeriod(@Param("firstDate") LocalDate firstDate, @Param("secondDate") LocalDate secondDate);
-    @Query("SELECT h.bookId, b, a, coa FROM HistoryOfRequest h LEFT JOIN FETCH h.bookId b LEFT JOIN FETCH b.author a LEFT JOIN FETCH b.coAuthor coa WHERE h.dateOfIssue BETWEEN :firstDate AND :secondDate GROUP BY h.bookId, b, a, coa ORDER BY COUNT(h.bookId)")
-    List<Book> getUnpopularBookInSelectedPeriod(@Param("firstDate") LocalDate firstDate, @Param("secondDate") LocalDate secondDate);
 }

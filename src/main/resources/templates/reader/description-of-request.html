@@ -167,7 +167,9 @@
             <p th:text="'ISBN of book: ' +  ${request.bookId.ISBN}"></p>
             <p th:text="'Date of issue: ' + ${request.dateOfIssue}"></p>
             <p th:text="'Should be return: ' + ${request.shouldBeReturn}"></p>
+            <td th:if="${request.returnDate != null}">
             <p th:text="'Return date: ' + ${request.returnDate}"></p>
+            </td>
             <p th:text="'Status: ' + ${request.status}"></p>
 
             <div th:if="${request.status == request.status.WAITING}">

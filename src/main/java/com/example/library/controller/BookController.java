@@ -34,9 +34,9 @@ public class BookController {
     @GetMapping("/getPopUnPopBook")
     public String getPopularAndUnpopularBook(String firstDate, String secondDate, Model model) {
         List<Book> popular = bookService.getPopularBookInSelectedPeriod(firstDate, secondDate);
-        List<Book> unpopular = bookService.getUnpopularBookInSelectedPeriod(firstDate, secondDate);
+//        List<Book> unpopular = bookService.getUnpopularBookInSelectedPeriod(firstDate, secondDate);
         model.addAttribute("popular", popular);
-        model.addAttribute("unpopular", unpopular);
+//        model.addAttribute("unpopular", unpopular);
         return "user/pop-unpop-books";
     }
 
