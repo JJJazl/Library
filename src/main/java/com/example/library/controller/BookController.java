@@ -20,12 +20,8 @@ public class BookController {
     private final BookService bookService;
     private final QuantityService quantityService;
 
-//    private final PaginationResultService paginationResultService;
-
-
     @GetMapping("/list")
     public String getBook(Model model, @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
-//        PaginationResult<Book> bookPaginationResult = paginationResultService.paginate(pageNumber);
         var books = bookService.listBook();
         model.addAttribute("books", books);
         return "user/books";
@@ -34,9 +30,7 @@ public class BookController {
     @GetMapping("/getPopUnPopBook")
     public String getPopularAndUnpopularBook(String firstDate, String secondDate, Model model) {
         List<Book> popular = bookService.getPopularBookInSelectedPeriod(firstDate, secondDate);
-//        List<Book> unpopular = bookService.getUnpopularBookInSelectedPeriod(firstDate, secondDate);
         model.addAttribute("popular", popular);
-//        model.addAttribute("unpopular", unpopular);
         return "user/pop-unpop-books";
     }
 

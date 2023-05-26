@@ -3,8 +3,10 @@ package com.example.library.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,15 +32,14 @@ public class WebSecurityConfig {
         return http.csrf()
                 .disable()
                 .authorizeHttpRequests()
-//                .authorizeRequests()
                 .requestMatchers("/book/list", "/user/register", "/book/more/{id}", "/book/search", "/book/getPopUnPopBook", "/user/post/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .formLogin()
-                .loginPage("/user/login")
+                .loginPage("/auth/login")
                 .permitAll()
-                .loginProcessingUrl("/user/post/login")
+                .loginProcessingUrl("/auth/post/login")
                 .defaultSuccessUrl("/book/list", true)
                 .and()
                 .logout()
@@ -52,6 +53,11 @@ public class WebSecurityConfig {
                 .and().build();
     }
 
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
