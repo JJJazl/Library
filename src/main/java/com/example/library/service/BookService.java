@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,7 +40,11 @@ public class BookService {
             book.setAuthor(authorRepository.save(AuthorMapper
                     .mapToModel(bookDto.getAuthorDto())));
         }
-        bookRepository.save(book);
+        try {
+            bookRepository.save(book);
+        } catch (Exception e) {
+            return;
+        }
         quantityRepository.addQuantity(book, bookDto.getQuantity());
     }
 
@@ -65,7 +70,11 @@ public class BookService {
             book.setCoAuthor(authorRepository.save(AuthorMapper
                     .mapToModel(bookDto.getCoAuthorDto())));
         }
-        bookRepository.save(book);
+        try {
+            bookRepository.save(book);
+        } catch (Exception e) {
+            return;
+        }
         addQuantity(book, bookDto.getQuantity());
     }
 
@@ -136,14 +145,12 @@ public class BookService {
     }
 
     public List<Book> getPopularBookInSelectedPeriod(String firstDate, String secondDate) {
-        return bookRepository.getPopularBookInSelectedPeriod(
-                LocalDate.parse(firstDate, DATE_TIME_FORMATTER),
-                LocalDate.parse(secondDate, DATE_TIME_FORMATTER));
+        try {
+            return bookRepository.getPopularBookInSelectedPeriod(
+                    LocalDate.parse(firstDate, DATE_TIME_FORMATTER),
+                    LocalDate.parse(secondDate, DATE_TIME_FORMATTER));
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
     }
-
-//    public List<Book> getUnpopularBookInSelectedPeriod(String firstDate, String secondDate) {
-//        return bookRepository.getUnpopularBookInSelectedPeriod(
-//                LocalDate.parse(firstDate, DATE_TIME_FORMATTER),
-//                LocalDate.parse(secondDate, DATE_TIME_FORMATTER));
-//    }
 }
