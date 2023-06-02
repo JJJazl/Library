@@ -18,12 +18,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserCreateMapper userCreateMapper;
 
     public void addUser(UserCreateDto userCreateDto) {
         userCreateDto.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
         userCreateDto.setRegistrationDate(LocalDate.now());
         userCreateDto.setRole(Role.READER);
-        User user = UserCreateMapper.mapToModel(userCreateDto);
+        User user = userCreateMapper.mapToModel(userCreateDto);
         userRepository.save(user);
     }
 

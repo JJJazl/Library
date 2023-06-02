@@ -3,6 +3,7 @@ package com.example.library.service;
 import com.example.library.dto.book.BookCreateDto;
 import com.example.library.dto.book.BookReadUpdateDto;
 import com.example.library.mapper.author.AuthorMapper;
+import com.example.library.mapper.author.AuthorMapperImpl;
 import com.example.library.mapper.book.BookCreateMapper;
 import com.example.library.mapper.book.BookReadUpdateMapper;
 import com.example.library.model.Author;
@@ -27,9 +28,12 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final QuantityRepository quantityRepository;
+    private final BookCreateMapper bookCreateMapper;
+    private final BookReadUpdateMapper bookReadUpdateMapper;
+    private final AuthorMapper authorMapper;
 
     public void addBookWithMainAuthor(BookCreateDto bookDto) {
-        Book book = BookCreateMapper.mapToModel(bookDto);
+        Book book = bookCreateMapper.mapToModel(bookDto);
         Optional<Author> author = authorRepository.findAuthorByNameAndSurname(
                 bookDto.getAuthorDto().getName(),
                 bookDto.getAuthorDto().getSurname()
@@ -37,7 +41,7 @@ public class BookService {
         if (author.isPresent()) {
             book.setAuthor(author.get());
         } else {
-            book.setAuthor(authorRepository.save(AuthorMapper
+            book.setAuthor(authorRepository.save(authorMapper
                     .mapToModel(bookDto.getAuthorDto())));
         }
         try {
@@ -49,7 +53,7 @@ public class BookService {
     }
 
     public void addBookWithMainAuthorAndCoAuthor(BookCreateDto bookDto) {
-        Book book = BookCreateMapper.mapToModel(bookDto);
+        Book book = bookCreateMapper.mapToModel(bookDto);
         Optional<Author> mainAuthor = authorRepository.findAuthorByNameAndSurname(
                 bookDto.getAuthorDto().getName(),
                 bookDto.getAuthorDto().getSurname()
@@ -61,13 +65,13 @@ public class BookService {
         if (mainAuthor.isPresent()) {
             book.setAuthor(mainAuthor.get());
         } else {
-            book.setAuthor(authorRepository.save(AuthorMapper
+            book.setAuthor(authorRepository.save(authorMapper
                     .mapToModel(bookDto.getAuthorDto())));
         }
         if (coAuthor.isPresent()) {
             book.setCoAuthor(coAuthor.get());
         } else {
-            book.setCoAuthor(authorRepository.save(AuthorMapper
+            book.setCoAuthor(authorRepository.save(authorMapper
                     .mapToModel(bookDto.getCoAuthorDto())));
         }
         try {
@@ -92,13 +96,13 @@ public class BookService {
         if (mainAuthor.isPresent()) {
             book.setAuthor(mainAuthor.get());
         } else {
-            book.setAuthor(authorRepository.save(AuthorMapper
+            book.setAuthor(authorRepository.save(authorMapper
                     .mapToModel(bookDto.getAuthorDto())));
         }
         if (coAuthor.isPresent()) {
             book.setCoAuthor(coAuthor.get());
         } else {
-            book.setCoAuthor(authorRepository.save(AuthorMapper
+            book.setCoAuthor(authorRepository.save(authorMapper
                     .mapToModel(bookDto.getCoAuthorDto())));
         }
         book.setTitle(bookDto.getTitle());
@@ -115,7 +119,7 @@ public class BookService {
 
     public List<BookReadUpdateDto> listBook() {
         return bookRepository.findAll().stream()
-                .map(BookReadUpdateMapper::mapToDto)
+                .map(bookReadUpdateMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
@@ -124,13 +128,13 @@ public class BookService {
                 ? bookRepository.findAll()
                 : bookRepository.findBookByTitle(title);
         return books.stream()
-                .map(BookReadUpdateMapper::mapToDto)
+                .map(bookReadUpdateMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
     public BookReadUpdateDto getBook(long id) {
         return (bookRepository.findById(id)
-                .map(BookReadUpdateMapper::mapToDto)
+                .map(bookReadUpdateMapper::mapToDto)
                 .orElseThrow());
     }
 

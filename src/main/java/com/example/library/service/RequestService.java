@@ -2,6 +2,7 @@ package com.example.library.service;
 
 import com.example.library.dto.request.RequestReadDto;
 import com.example.library.mapper.request.RequestReadMapper;
+import com.example.library.mapper.request.RequestReadMapperImpl;
 import com.example.library.model.HistoryOfRequest;
 import com.example.library.model.enums.Status;
 import com.example.library.model.enums.Type;
@@ -27,6 +28,7 @@ public class RequestService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final QuantityRepository quantityRepository;
+    private final RequestReadMapper requestReadMapper;
 
     private long processRequest(long id, Status status) {
         HistoryOfRequest request = requestRepository.getRequestById(id);
@@ -73,7 +75,7 @@ public class RequestService {
     //ПОМЕНЯТЬ НА ДТО
     public List<RequestReadDto> getRequestedBooks(long id) {
         return requestRepository.getRequestedBooks(id).stream()
-                .map(RequestReadMapper::mapToDto)
+                .map(requestReadMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
