@@ -72,14 +72,12 @@ public class RequestService {
         processRequest(id, Status.REJECTED);
     }
 
-    //ПОМЕНЯТЬ НА ДТО
     public List<RequestReadDto> getRequestedBooks(long id) {
         return requestRepository.getRequestedBooks(id).stream()
                 .map(requestReadMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
-    //ПОМЕНЯТЬ НА ДТО
     public HistoryOfRequest getRequestById(long id) {
         return requestRepository.getRequestById(id);
     }

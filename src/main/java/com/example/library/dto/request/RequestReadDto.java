@@ -12,6 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(of = "id")
 public class RequestReadDto {
 
     private Long id;

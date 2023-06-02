@@ -1,7 +1,7 @@
 INSERT INTO user_account (name, surname, email, password, role, birthday, registration_date)
-values ('NIKITA', 'Korzh', 'nikita@gmail.com', '$2a$12$/rvn3kHDg/BigpA99UIJY.fBX55kgTmrmktLNjkwGH0Py9bIzpS0u',
+values ('Pavlik', 'Pavlik', 'pavlik@gmail.com', '$2a$10$KaTTGvETXaqF2Fu5P1.Sz./VbASmY6EcoSJfg/XCgxwldygGl8ghK',
         'MANAGER', '09.02.2000', '05.05.2021'),
-       ('Renat', 'Safarov', 'renat@gmail.com', '$2a$12$6ILIpUHQ45gxUfF4dJO7h.uhKSIiD9BCQQxuz7eW4SyIe.xnPz/Qm',
+       ('Admin', 'Admin', 'admin@gmail.com', '$2a$10$Fv/5.8V2LdRBgmtuPU/Y/OORslZJCTHu2uPd5nTLraWMiJh.xPDvW',
         'MANAGER', '28.04.2003', '07.08.2021'),
        ('Name1', 'Surname1', 'user1@gmail.com', '$2a$12$E8UBHb0RCiMOcyLd3JAECegfE6jGRSiBwuhLDh8tC8zEGrP476dzG',
         'READER', '10.02.2005', '12.10.2022'),
